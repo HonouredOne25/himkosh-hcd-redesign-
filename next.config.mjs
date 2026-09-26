@@ -1,2 +1,5 @@
-const nextConfig = { reactStrictMode: true };
+const nextConfig = {
+  reactStrictMode: true,
+  output: "standalone",
+};
 export default nextConfig;
