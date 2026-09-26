@@ -1,0 +1,11 @@
+ "use client";
+import {useState} from "react";
+export default function PaymentFlow(){
+ const [step,setStep]=useState(1); const [service,setService]=useState(""); const [purpose,setPurpose]=useState(""); const [done,setDone]=useState(false);
+ if(done) return <div className="paymentCard" id="payment"><div className="successIcon">✓</div><p className="eyebrow">Demo flow complete</p><h3>Ready for review</h3><p className="muted">Your demo challan has been prepared. No real payment was made.</p><button className="primary full" onClick={()=>{setDone(false);setStep(1)}}>Start another →</button></div>;
+ return <div className="paymentCard" id="payment"><div className="cardTop"><b>Quick payment</b><span>🔒 Demo secure flow</span></div><div className="stepper">{["Choose","Details","Review"].map((x,i)=><span key={x} className={step>=i+1?"activeStep":""}><i>{i+1}</i>{x}</span>)}</div>
+ {step===1&&<><label>What are you paying for?</label><select value={service} onChange={e=>setService(e.target.value)}><option value="">Select a service</option><option>Transport</option><option>Excise & Taxation</option><option>Revenue</option><option>Other government service</option></select><label>Describe what you need</label><input value={purpose} onChange={e=>setPurpose(e.target.value)} placeholder="e.g. vehicle-related fee"/><small className="hint">✨ The AI Guide can help if you're unsure.</small><button className="primary full" disabled={!service} onClick={()=>setStep(2)}>Continue →</button></>}
+ {step===2&&<><label>Reference / vehicle number</label><input placeholder="Enter the relevant number"/><label>Amount</label><input placeholder="₹ Enter amount"/><small className="hint">Only demo fields are used here. Real government validation is not connected.</small><div className="row"><button className="secondary full" onClick={()=>setStep(1)}>← Back</button><button className="primary full" onClick={()=>setStep(3)}>Review →</button></div></>}
+ {step===3&&<><div className="review"><span>Service<b>{service}</b></span><span>Purpose<b>{purpose||"General payment"}</b></span><span>Payment<b>Demo only</b></span></div><button className="primary full" onClick={()=>setDone(true)}>Create demo challan →</button><button className="textBtn" onClick={()=>setStep(2)}>Edit details</button></>}
+ </div>
+}
